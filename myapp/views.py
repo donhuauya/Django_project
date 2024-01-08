@@ -1,5 +1,7 @@
 # from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from .models import project,tasks
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def index(request):
@@ -17,3 +19,15 @@ def testnum(request, id):
 
 def otherpage(request):
     return HttpResponse("OtherPage")
+
+
+def projects(request):
+    _project = list(project.objects.values())
+    return JsonResponse(_project, safe=False)
+
+def task(request,title):
+    # task = tasks.objects.get(id=id)
+    # tas = get_object_or_404(tasks, id=id)
+    tas = tasks.objects.get(title=title)
+    return HttpResponse("task: %s" % tas.title)
+
